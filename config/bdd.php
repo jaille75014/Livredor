@@ -13,5 +13,4 @@ try {
     echo "Erreur de connexion: " . $e->getMessage();
     exit;
 }
-
 ?>

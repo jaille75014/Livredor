@@ -7,7 +7,7 @@ $server = 'livredor-sql-serv.database.windows.net';
 $dbname = 'livredor-sql-db';
 $username = 'admAJR';
 $password = 'Cisco!00';
-$dsn = "mysql:host=$server;charset=utf8mb4";
+$dsn = "sqlsrv:Server=$server,Database=$dbname,$username,$password";
 
 try {
     $pdo = new PDO($dsn, $username, $password);
