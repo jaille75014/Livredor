@@ -19,8 +19,8 @@ if (initDBButton) {
                     }
                 })
                 .catch(error => {
-                    console.error('Erreur réseau :', error);
-                    alert("Erreur réseau lors de l'initialisation");
+                    console.error('main.js Erreur réseau :', error);
+                    alert("main.js : Erreur réseau lors de l'initialisation");
                 });
         }
     });
