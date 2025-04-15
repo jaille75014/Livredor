@@ -20,7 +20,7 @@ if (initDBButton) {
                 })
                 .catch(error => {
                     console.error('Erreur réseau :', error);
-                    alert("Erreur réseau lors de l'initialisation.");
+                    alert("Erreur réseau lors de l'initialisation");
                 });
         }
     });
@@ -42,7 +42,7 @@ if (dropDBButton) {
                 })
                 .catch(error => {
                     console.error('Erreur réseau :', error);
-                    alert("Erreur réseau lors de la suppression.");
+                    alert("Erreur réseau lors de la suppression");
                 });
         }
     });
