@@ -1,15 +1,16 @@
 <?php
 
-$host = 'localhost';
-$dbname = 'livredor';
-$username = 'root';
-$password = 'root';
+$server = 'livredor-sql-serv.database.windows.net';
+$dbname = 'livredor-sql-db';
+$username = 'admAJR';
+$password = 'Cisco!00';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo = new PDO("sqlsrv:server=$server;Database=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connexion réussie à Azure SQL Server";
 } catch (PDOException $e) {
-    echo json_encode([]);
+    echo "Erreur de connexion: " . $e->getMessage();
     exit;
 }
 
