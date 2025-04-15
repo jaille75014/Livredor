@@ -8,6 +8,14 @@ try {
     $conn = new PDO("sqlsrv:server = tcp:livredor-sql-serv.database.windows.net,1433; Database = livredor-sql-db", "admAJR", "Cisco!00");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    $sql = file_get_contents('../database.sql');
+
+    if ($sql === false) {
+        throw new Exception("Impossible de lire le fichier SQL !");
+    }
+
+    $pdo->exec($sql);
+
     echo json_encode(['success' => true, 'message' => "Base de données '$dbname' initialisée avec succès !"]);
 }
 catch (PDOException $e) {
