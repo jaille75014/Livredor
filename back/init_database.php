@@ -1,8 +1,4 @@
 <?php
-header('Content-Type: application/json');
-echo json_encode(["status" => "ok", "message" => "Test"]);
-
-
 $connectionInfo = array("UID" => "admAJR", "pwd" => "Cisco!00", "Database" => "livredor-sql-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:livredor-sql-serv.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
