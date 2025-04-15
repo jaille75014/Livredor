@@ -1,30 +1,18 @@
+
+
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-$server = 'livredor-sql-serv.database.windows.net';
-$dbname = 'livredor-sql-db';
-$username = 'admAJR';
-$password = 'Cisco!00';
-$dsn = "sqlsrv:Server=$server,Database=$dbname,$username,$password";
-
+// PHP Data Objects(PDO) Sample Code:
 try {
-    $pdo = new PDO($dsn, $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    $sql = file_get_contents('../database.sql');
-
-    if ($sql === false) {
-        throw new Exception("Impossible de lire le fichier SQL !");
-    }
-
-    $pdo->exec($sql);
-
-    echo json_encode(['success' => true, 'message' => 'Base de données initialisée avec succès !']);
-} catch (PDOException $e) {
-    echo json_encode(['success' => false, 'error' => 'Erreur PDO : ' . $e->getMessage()]);
-} catch (Exception $e) {
-    echo json_encode(['success' => false, 'error' => 'Erreur : ' . $e->getMessage()]);
+    $conn = new PDO("sqlsrv:server = tcp:livredor-sql-serv.database.windows.net,1433; Database = livredor-sql-db", "admAJR", "{your_password_here}");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
+catch (PDOException $e) {
+    print("Error connecting to SQL Server.");
+    die(print_r($e));
+}
+
+// SQL Server Extension Sample Code:
+$connectionInfo = array("UID" => "admAJR", "pwd" => "{your_password_here}", "Database" => "livredor-sql-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:livredor-sql-serv.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
 ?>
