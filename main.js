@@ -7,7 +7,7 @@ const initDBButton = document.getElementById('initDB');
 if (initDBButton) {
     initDBButton.addEventListener('click', function () {
         if (confirm("Tu es sûr de vouloir réinitialiser la base ?")) {
-            fetch('https://livredor-app.azurewebsites.net/back/init_database.php')
+            fetch('back/init_database.php')
             .then(response => response.json())
                 .then(data => {
                     if (data.success) {
