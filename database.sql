@@ -1,12 +1,4 @@
-IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'livredor')
-BEGIN
-    CREATE DATABASE livredor;
-END
-GO
-
-USE livredor;
-GO
-
+-- Création de la table si elle n'existe pas
 IF OBJECT_ID('dbo.messages', 'U') IS NULL
 BEGIN
     CREATE TABLE dbo.messages (
@@ -18,6 +10,7 @@ BEGIN
 END
 GO
 
+-- Insertion des données
 INSERT INTO dbo.messages (nom, message, date) VALUES
     (N'Jules SIMON', N'Ceci est un message test', '2025-04-14 10:00:00'),
     (N'Alban CABADET-BOGDANSKI', N'Youhouuuu ça fonctionne !', '2025-04-14 10:10:00'),
