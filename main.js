@@ -8,7 +8,7 @@ if (initDBButton) {
             fetch('back/init_database.php')
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error("Erreur HTTP : " + response.status);
+                        throw new Error("initdb Erreur HTTP : " + response.status);
                     }
                     return response.json();
                 })
@@ -22,8 +22,8 @@ if (initDBButton) {
                     }
                 })
                 .catch(error => {
-                    console.error('main.js initdb ', error);
-                    alert("main.js initdb " + error);
+                    console.error('initdb ', error);
+                    alert("initdb " + error);
                 });
         }
     });
