@@ -29,12 +29,12 @@ if ($getResults === false) {
     die(print_r(sqlsrv_errors(), true));
 }
 
-// Affiche les lignes retournées
-echo "<pre>";
+$messages = array();
 while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-    print_r($row);
+    $messages[] = $row;
 }
-echo "</pre>";
+
+echo json_encode($messages); // Retourne les messages en JSON
 
 sqlsrv_free_stmt($getResults);
 sqlsrv_close($conn);
