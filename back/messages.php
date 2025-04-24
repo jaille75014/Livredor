@@ -37,6 +37,6 @@ while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 echo "</pre>";
 
 sqlsrv_free_stmt($getResults);
-sqlsrv_close($conn); echo json_encode(['error' => 'Erreur SQL', 'details' => $e->getMessage()]);
+sqlsrv_close($conn);
 }
 ?>
