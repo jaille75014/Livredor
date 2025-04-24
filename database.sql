@@ -8,7 +8,6 @@ BEGIN
         date DATETIME NOT NULL DEFAULT GETDATE()
     );
 END
-GO
 
 -- Insertion des données
 INSERT INTO dbo.messages (nom, message, date) VALUES
@@ -16,4 +15,3 @@ INSERT INTO dbo.messages (nom, message, date) VALUES
     (N'Alban CABADET-BOGDANSKI', N'Youhouuuu ça fonctionne !', '2025-04-14 10:10:00'),
     (N'Rafaël FRON', N'Reste plus qu''à déployer dans Azure', '2025-04-14 10:15:00'),
     (N'Romain LENOIR', N'Je vais vous mettre 20 les gars, vous êtes trop forts !', '2025-04-14 10:20:00');
-GO
