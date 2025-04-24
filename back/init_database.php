@@ -1,30 +1,27 @@
 <?php
-$connectionInfo = array(
-    "UID" => "esgiAdmin",
-    "pwd" => "Cisco!00",
-    "Database" => "sqldb-livredor-prod-northeurope-01",
-    "LoginTimeout" => 30,
-    "Encrypt" => 1,
-    "TrustServerCertificate" => 0
-);
 $serverName = "tcp:sql-livredor-prod-northeurope-01.database.windows.net,1433";
+$connectionOptions = array(
+    "Database" => "sqldb-livredor-prod-northeurope-01", // C'était incorrect dans ta version
+    "Uid" => "esgiAdmin",
+    "PWD" => "Cisco!00",
+    "Encrypt" => 1,
+    "TrustServerCertificate" => 0,
+    "LoginTimeout" => 30
+);
 
-try {
-    $conn = new PDO("sqlsrv:server=tcp:sql-livredor-prod-northeurope-01.database.windows.net,1433;Database=sqldb-livredor-prod-northeurope-01", "esgiAdmin", "Cisco!00");
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// Établir la connexion
+$conn = sqlsrv_connect($serverName, $connectionOptions);
 
-    $sql = file_get_contents('../database.sql');
-
-    if ($sql === false) {
-        throw new Exception("Impossible de lire le fichier SQL !");
-    }
-
-    $conn->exec($sql);
-
-    echo json_encode(['success' => true, 'message' => "Base de données initialisée avec succès !"]);
+if ($conn === false) {
+    die(print_r(sqlsrv_errors(), true)); // Affiche les erreurs si échec
 }
-catch (PDOException $e) {
-    print("Error connecting to SQL Server.");
-    die(print_r($e));
+
+
+$getResults = sqlsrv_query($conn, $sql);
+if ($getResults === false) {
+    die(print_r(sqlsrv_errors(), true));
 }
-?>
+sqlsrv_free_stmt($getResults);
+sqlsrv_close($conn);
+echo json_encode(['success' => true, 'message' => "Base de données initialisée avec succès !"]);
+
