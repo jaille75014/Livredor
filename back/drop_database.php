@@ -3,21 +3,29 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$server = 'sql-livredor-prod-northeurope-01.database.windows.net';
-$dbname = 'sqldb-livredor-prod-northeurope-01';
-$username = 'esgiAdmin';
-$password = 'Cisco!00';
-$dsn = "mysql:host=$server;charset=utf8mb4";
+$serverName = "tcp:sql-livredor-prod-northeurope-01.database.windows.net,1433";
+$connectionOptions = array(
+    "Database" => "sqldb-livredor-prod-northeurope-01", // C'était incorrect dans ta version
+    "Uid" => "esgiAdmin",
+    "PWD" => "Cisco!00",
+    "Encrypt" => 1,
+    "TrustServerCertificate" => 0,
+    "LoginTimeout" => 30
+);
 
-try {
-    $pdo = new PDO($dsn, $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// Établir la connexion
+$conn = sqlsrv_connect($serverName, $connectionOptions);
 
-    $sql = "DROP DATABASE `$dbname`";
-    $pdo->exec($sql);
-
-    echo json_encode(['success' => true, 'message' => "Base de données '$dbname' supprimée avec succès !"]);
-} catch (PDOException $e) {
-    echo json_encode(['success' => false, 'error' => 'Erreur PDO : ' . $e->getMessage()]);
+if ($conn === false) {
+    die(print_r(sqlsrv_errors(), true)); // Affiche les erreurs si échec
 }
+
+$tsql = "DROP DATABASE `$dbname"; 
+$getResults = sqlsrv_query($conn, $tsql);
+if ($getResults === false) {
+    die(print_r(sqlsrv_errors(), true));
+}  
+
+sqlsrv_free_stmt($getResults);
+sqlsrv_close($conn);
 ?>
