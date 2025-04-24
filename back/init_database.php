@@ -16,6 +16,8 @@ if ($conn === false) {
     die(print_r(sqlsrv_errors(), true)); // Affiche les erreurs si échec
 }
 
+$sql = file_get_contents('../database.sql');
+
 
 $getResults = sqlsrv_query($conn, $sql);
 if ($getResults === false) {
