@@ -34,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    $query = "INSERT INTO messages (nom, message, date) VALUES (?, ?, NOW())";
-$getResults = sqlsrv_query($conn, $tsql);
+    $query = 'INSERT INTO messages (nom, message, date) VALUES ('.$nom','.$message.', NOW())";
+$getResults = sqlsrv_query($conn, $query);
 
 
         echo json_encode(['success' => 'Message envoyé avec succès']);
