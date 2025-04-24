@@ -104,7 +104,7 @@ function gererSoumissionFormulaire(event) {
     event.preventDefault();
     const formData = new FormData(form);
 
-    fetch('/back/submit.php', {
+    fetch('back/submit.php', {
         method: 'POST',
         body: formData
     })
