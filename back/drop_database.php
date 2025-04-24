@@ -3,9 +3,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$server = 'livredor-sql-serv.database.windows.net';
-$dbname = 'livredor-sql-db';
-$username = 'admAJR';
+$server = 'sql-livredor-prod-northeurope-01.database.windows.net';
+$dbname = 'sqldb-livredor-prod-northeurope-01';
+$username = 'esgiAdmin';
 $password = 'Cisco!00';
 $dsn = "mysql:host=$server;charset=utf8mb4";
 
