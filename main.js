@@ -29,32 +29,14 @@ if (initDBButton) {
     });
 }
 
-const dropDBButton = document.getElementById('dropDB');
-if (dropDBButton) {
-    dropDBButton.addEventListener('click', function () {
-        if (confirm("Tu es sûr de vouloir SUPPRIMER la base de données ? Cette action est irréversible !")) {
-            fetch('back/drop_database.php')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Erreur HTTP : " + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message);
-                        location.reload();
-                    } else {
-                        alert("Erreur : " + data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error('Erreur réseau :', error);
-                    alert("Erreur réseau lors de la suppression : " + error);
-                });
-        }
-    });
-}
+document.getElementById('dropDB')?.addEventListener('click', () => {
+    if (!confirm("Supprimer la base ?")) return;
+
+    fetch('back/drop_database.php')
+        .then(res => res.json())
+        .then(data => alert(data.message))
+        .catch(err => alert("Erreur : " + err));
+});
 
 function creerBoiteMessage(msg) {
     const box = document.createElement('div');
