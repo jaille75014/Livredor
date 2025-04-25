@@ -20,7 +20,7 @@ if ($conn === false) {
     die(print_r(sqlsrv_errors(), true)); // Affiche les erreurs si échec
 }
 
-$tsql = "DROP DATABASE `$dbname"; 
+$tsql = "DROP TABLE `$dbname"; 
 $getResults = sqlsrv_query($conn, $tsql);
 if ($getResults === false) {
     die(print_r(sqlsrv_errors(), true));
