@@ -26,7 +26,7 @@ if ($conn === false) {
     ]);
 }
 
-$tsql = "DROP TABLE `$dbname"; 
+$tsql = "DROP TABLE messages"; 
 $getResults = sqlsrv_query($conn, $tsql);
 if ($getResults === false) {
     echo json_encode([
@@ -38,4 +38,5 @@ if ($getResults === false) {
 
 sqlsrv_free_stmt($getResults);
 sqlsrv_close($conn);
+exit;
 ?>
