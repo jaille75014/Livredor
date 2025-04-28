@@ -71,11 +71,19 @@ function chargerMessages() {
             return response.json();
         })
         .then(data => {
-            messagesDiv.innerHTML = '';
-            data.forEach(msg => {
-                const box = creerBoiteMessage(msg);
-                messagesDiv.appendChild(box);
-            });
+            if (data.success) {
+                messagesDiv.innerHTML = '';
+                if (data.messages && Array.isArray(data.messages)) {
+                    data.messages.forEach(msg => {
+                        const box = creerBoiteMessage(msg);
+                        messagesDiv.appendChild(box);
+                    });
+                } else {
+                    console.warn("Les données reçues ne sont pas au format attendu.", data);
+                }
+            } else {
+                console.error("Erreur lors du chargement des messages :", data.error);
+            }
         })
         .catch(error => {
             console.error('Erreur lors du chargement des messages :', error);

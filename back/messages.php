@@ -4,9 +4,10 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 header('Content-Type: application/json');
+
 $serverName = "tcp:sql-livredor-prod-northeurope-01.database.windows.net,1433";
 $connectionOptions = array(
-    "Database" => "sqldb-livredor-prod-northeurope-01", // C'était incorrect dans ta version
+    "Database" => "sqldb-livredor-prod-northeurope-01",
     "Uid" => "esgiAdmin",
     "PWD" => "Cisco!00",
     "Encrypt" => 1,
@@ -14,19 +15,27 @@ $connectionOptions = array(
     "LoginTimeout" => 30
 );
 
-// Établir la connexion
 $conn = sqlsrv_connect($serverName, $connectionOptions);
 
 if ($conn === false) {
-    die(print_r(sqlsrv_errors(), true)); // Affiche les erreurs si échec
+    echo json_encode([
+        'success' => false,
+        'error' => 'Erreur de connexion à la base de données.',
+        'details' => sqlsrv_errors()
+    ]);
+    exit;
 }
 
-
-$query = "SELECT nom, message, FORMAT(date, 'dd/MM/yyyy HH:mm') as date FROM messages ORDER BY id DESC;";
+$query = "SELECT nom, message, FORMAT(date, 'dd/MM/yyyy HH:mm') as date FROM messages ORDER BY id DESC";
 $getResults = sqlsrv_query($conn, $query);
 
 if ($getResults === false) {
-    die(print_r(sqlsrv_errors(), true));
+    echo json_encode([
+        'success' => false,
+        'error' => 'Erreur d\'exécution de la requête SQL.',
+        'details' => sqlsrv_errors()
+    ]);
+    exit;
 }
 
 $messages = array();
@@ -34,9 +43,18 @@ while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
     $messages[] = $row;
 }
 
-echo json_encode($messages); // Retourne les messages en JSON
+if (empty($messages)) {
+    echo json_encode([
+        'success' => true,
+        'messages' => []
+    ]);
+} else {
+    echo json_encode([
+        'success' => true,
+        'messages' => $messages
+    ]);
+}
 
 sqlsrv_free_stmt($getResults);
 sqlsrv_close($conn);
-}
 ?>
