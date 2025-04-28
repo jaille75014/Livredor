@@ -10,7 +10,7 @@ function sendJson($success, $message, $extra = []) {
         'success' => $success,
         'message' => $message
     ], $extra));
-    exit; // 💣 NE JAMAIS OUBLIER ÇA
+    exit;
 }
 
 $serverName = "tcp:sql-livredor-prod-northeurope-01.database.windows.net,1433";
@@ -29,17 +29,25 @@ if ($conn === false) {
     sendJson(false, "Connexion échouée", ['details' => sqlsrv_errors()]);
 }
 
-// Tu peux récupérer dynamiquement la table si tu veux (GET, POST, etc.)
-$tableName = 'etudiants';
+$tableName = 'messages';
+
+$checkTableExists = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '$tableName'";
+$checkResults = sqlsrv_query($conn, $checkTableExists);
+
+if ($checkResults === false || sqlsrv_has_rows($checkResults) === false) {
+    sendJson(false, "La table '$tableName' n'existe pas.", ['details' => sqlsrv_errors()]);
+}
+
+sqlsrv_free_stmt($checkResults);
 
 $tsql = "DROP TABLE [$tableName]";
 $getResults = sqlsrv_query($conn, $tsql);
 
 if ($getResults === false) {
-    sendJson(false, "Erreur lors de DROP TABLE", ['details' => sqlsrv_errors()]);
+    sendJson(false, "Erreur lors de la suppression de la table", ['details' => sqlsrv_errors()]);
 }
 
 sqlsrv_free_stmt($getResults);
 sqlsrv_close($conn);
 
-sendJson(true, "Table supprimée avec succès !");
+sendJson(true, "Table '$tableName' supprimée avec succès !");
