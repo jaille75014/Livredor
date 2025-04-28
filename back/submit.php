@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 header('Content-Type: application/json');
 $serverName = "tcp:sql-livredor-prod-northeurope-01.database.windows.net,1433";
 $connectionOptions = array(
-    "Database" => "sqldb-livredor-prod-northeurope-01", // C'était incorrect dans ta version
+    "Database" => "sqldb-livredor-prod-northeurope-01",
     "Uid" => "esgiAdmin",
     "PWD" => "Cisco!00",
     "Encrypt" => 1,
@@ -15,14 +15,12 @@ $connectionOptions = array(
     "LoginTimeout" => 30
 );
 
-// Établir la connexion
+
 $conn = sqlsrv_connect($serverName, $connectionOptions);
 
 if ($conn === false) {
-    die(print_r(sqlsrv_errors(), true)); // Affiche les erreurs si échec
+    die(json_encode(['error' => 'Connexion à la base de données échouée', 'details' => sqlsrv_errors()]));
 }
-
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = $_POST['nom'] ?? null;
@@ -33,12 +31,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    $tsql = "INSERT INTO messages (nom, message, date) VALUES (?, ?, GETDATE())";
 
-    $query = 'INSERT INTO messages (nom, message, date) VALUES ('.$nom','.$message.', NOW())";
-$getResults = sqlsrv_query($conn, $query);
+    $params = array($nom, $message);
+    $stmt = sqlsrv_query($conn, $tsql, $params);
 
+    if ($stmt === false) {
+        echo json_encode(['error' => 'Erreur lors de l\'insertion du message', 'details' => sqlsrv_errors()]);
+        sqlsrv_free_stmt($stmt);
+        sqlsrv_close($conn);
+        exit;
+    }
 
-        echo json_encode(['success' => 'Message envoyé avec succès']);
-  sqlsrv_free_stmt($getResults);
-sqlsrv_close($conn);
+    echo json_encode(['success' => 'Message envoyé avec succès']);
+
+    sqlsrv_free_stmt($stmt);
+    sqlsrv_close($conn);
+}
 ?>

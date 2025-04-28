@@ -122,7 +122,6 @@ function gererSoumissionFormulaire(event) {
             alert("Erreur réseau lors de la soumission : " + error);
         });
 }
-
 function initLivreOr() {
     if (form && messagesDiv) {
         form.addEventListener('submit', gererSoumissionFormulaire);
