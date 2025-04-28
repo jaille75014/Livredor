@@ -34,7 +34,12 @@ document.getElementById('dropDB')?.addEventListener('click', () => {
 
     fetch('back/drop_database.php')
         .then(res => res.json())
-        .then(data => alert(data.message))
+        .then(data => {
+            alert(data.message);
+            if (data.success) {
+                location.reload();
+            }
+        })
         .catch(err => alert("Erreur : " + err));
 });
 
