@@ -12,12 +12,12 @@ function sendJson($success, $message, $extra = []) {
     ], $extra));
     exit;
 }
-
+$connStr = getenv('SQL_CONN');
 $serverName = "tcp:sql-livredor-prod-northeurope-01.database.windows.net,1433";
 $connectionOptions = array(
     "Database" => "sqldb-livredor-prod-northeurope-01",
     "Uid" => "esgiAdmin",
-    "PWD" => "Cisco!00",
+    "PWD" => $connStr,
     "Encrypt" => 1,
     "TrustServerCertificate" => 0,
     "LoginTimeout" => 30
