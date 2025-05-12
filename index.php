@@ -25,7 +25,7 @@ error_reporting(E_ALL);
 
 
         <div class="container mt-5">
-            <h1 class="text-center mb-4"><?=getenv('SQL_CONN');?>Livre d’or</h1>
+            <h1 class="text-center mb-4">Livre d’or</h1>
             
 
             <div class="mb-3 d-flex justify-content-center gap-2">
