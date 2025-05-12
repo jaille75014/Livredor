@@ -1,9 +1,10 @@
 <?php
 $serverName = "tcp:sql-livredor-prod-northeurope-01.database.windows.net,1433";
+$connStr = getenv('SQL_CONN');
 $connectionOptions = array(
     "Database" => "sqldb-livredor-prod-northeurope-01", // C'était incorrect dans ta version
     "Uid" => "esgiAdmin",
-    "PWD" => "Cisco!00",
+    "PWD" => $connStr,
     "Encrypt" => 1,
     "TrustServerCertificate" => 0,
     "LoginTimeout" => 30
